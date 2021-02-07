@@ -1,35 +1,49 @@
+# Create your Function
 
-# Api Gateway -> Lambda (Send Email) -> SES (Simple Email Service)
+In AWS, go to the Lambda Function service
+Select Create Lambda Function and select author from scratch
+Create a new role for your lambda function and Create
+In Function Code, double click index.js in order to edit it.
+replace the contents of the file with the code from api/index.js
+Click Deploy
 
-## Description
+# Add Environment Variables
 
-This is a serverless component consisting of:
+Scroll down and add the below Environment Variables
 
-- an Api Gateway with a POST `/send` endpoint, that requires three parameters:
+2. TO_EMAIL your email
+3. SUBJECT subject line for form email
 
-  - `toEmails`, Array of strings, that represent all the emails you want to send an email to,
-  - `subject`, a string representing the subject of the email
-  - `message`, a string representing the message of the email, can be either HTML or regular text
-  It also accepts two optional ones: `ccEmails` and `replyToEmails`, both of Array of strings type.
+# Create a Trigger
 
-- a Lambda that sends an email to one or more specified email addresses. Also, depending if the `message` is in a Text or HTML format, it will send it in either of those formats. The `toEmails`,`ccEmails`, and `replyToEmails` parameters must be of Array type.
+Add a Trigger to your function
+Select API Gateway
+Select Create an API and REST type
+Select a Security Method or select Open
+You can also change the API name and select a deployment stage.
+Click Add.
 
-It's a Nuts & Bolts application component for AWS Serverless Application Repository.
+# Create API Methods
 
-## Deployment Parameters
+Scroll down to your list of API Gateways to find the one you just created
+Copy the API Endpoint. Update your lambda function with this endpoint. Save and Deploy.
+Click on the name of your API Gateway to head to AWS API Gateway Service
+In the Resources pane, select Create Method from the Actions menu
+Select Post and then click the check to save
 
-This component has two CloudFormation deployment parameters:
+# Configure API Methods
 
-- `FromEmail`, a required parameter, represents the email sender. Must be a SES verified email. If you attempt to send email using a non-verified address or domain, the operation results in an "Email address not verified" error.
-- `CorsOrigin`, an optional parameter, where you can restrict access to only specified domains.
+In the POST setup, select Lambda Function
+Check use lambda proxy integration
+Select the region for your Lambda function
+Enter the name of your function in the Lambda function field
+And Save.
 
-## Latest Release - 1.1.0
+# Deploy API
 
- - Upgrade to Node.js 12.x LTS
+Back in the Resources Pane, select deploy API in the Actions menu.
+Select your stage and enter a description and click save
 
-## Roadmap - Upcoming changes
+# Allow email sender
 
-Here are the upcoming changes that I'll add to this serverless component:
-
-- ESLint
-- Tests
+In AWS SES Identity Management, add and verify the email address where you would like to have the form's data sent.

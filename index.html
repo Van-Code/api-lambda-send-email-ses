@@ -1,0 +1,50 @@
+<html lang="en-US">
+  <head>
+    <style>
+      label {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="myForm" action="">
+      <label>
+        <input name="name" type="text" required />
+        Name
+      </label>
+      <label>
+        <input name="sender" type="email" required />
+        Sender Email
+      </label>
+      <label>
+        <textarea name="message" required></textarea>
+        Message
+      </label>
+      <button type="submit">Submit</button>
+      <div id="status"></div>
+    </form>
+
+    <script>
+      document.body.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const form = event.target;
+        const fields = document.body.querySelectorAll('input,textarea');
+
+        const params = {};
+        fields.forEach((field) => {
+          params[field.name] = field.value;
+        });
+        // update this with your new api endpoint
+        fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify(params),
+        })
+          .then((response) => {
+            document.getElementById('myForm').reset();
+            document.getElementById('status').textContent = 'Email Sent!';
+          })
+          .catch((error) => console.log(error));
+      });
+    </script>
+  </body>
+</html>
